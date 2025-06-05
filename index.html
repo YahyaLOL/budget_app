@@ -4,146 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Budget Tracker</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      padding: 20px;
-    }
-    
-    .container {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      width: 100%;
-      max-width: 450px;
-      overflow: hidden;
-      animation: fadeIn 0.8s ease-out;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .header {
-      background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
-    
-    .header h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-    
-    .header p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-    }
-    
-    .form-container {
-      padding: 30px;
-    }
-    
-    .form-group {
-      margin-bottom: 25px;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #333;
-      font-size: 1.1rem;
-    }
-    
-    .form-group input {
-      width: 100%;
-      padding: 14px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      transition: border-color 0.3s;
-    }
-    
-    .form-group input:focus {
-      border-color: #2575fc;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.2);
-    }
-    
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      letter-spacing: 1px;
-    }
-    
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .message {
-      text-align: center;
-      margin-top: 25px;
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 1rem;
-      display: none;
-    }
-    
-    .success {
-      background-color: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-    
-    .error {
-      background-color: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-    
-    .footer {
-      text-align: center;
-      padding: 20px;
-      color: #666;
-      font-size: 0.9rem;
-      border-top: 1px solid #eee;
-    }
-    
-    .footer a {
-      color: #2575fc;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    
-    .footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
@@ -152,41 +13,90 @@
       <p>Gérez facilement vos finances personnelles</p>
     </div>
     
-  
+    <!-- Formulaire de connexion -->
+    <div class="form-container login-form">
+      <h2 class="form-header">Connexion</h2>
+      <div class="form-group">
+        <label for="login-username">Nom d'utilisateur</label>
+        <input 
+          type="text" 
+          id="login-username" 
+          placeholder="Entrez votre nom d'utilisateur" 
+          required
+          autocomplete="off"
+        >
+      </div>
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input 
+          type="password" 
+          id="login-password" 
+          placeholder="Entrez votre mot de passe" 
+          required
+          autocomplete="off"
+        >
+      </div>
+      
+      <button id="login-btn" class="btn">Se connecter</button>
+      
+      <div class="form-toggle">
+        Pas de compte ? <a id="show-signup">S'inscrire maintenant</a>
+      </div>
+      
+      <div id="login-message" class="message"></div>
+    </div>
+    
+    <!-- Formulaire d'inscription -->
+    <div class="form-container signup-form">
+      <h2 class="form-header">Créer un compte</h2>
+      <div class="form-group">
+        <label for="signup-username">Nom d'utilisateur</label>
+        <input 
+          type="text" 
+          id="signup-username" 
+          placeholder="Choisissez un nom d'utilisateur" 
+          required
+          autocomplete="off"
+        >
+      </div>
+      <div class="form-group">
+        <label for="signup-password">Mot de passe</label>
+        <input 
+          type="password" 
+          id="signup-password" 
+          placeholder="Créez un mot de passe" 
+          required
+          autocomplete="off"
+        >
+      </div>
+      <div class="form-group">
+        <label for="signup-solde">Solde initial (€)</label>
+        <input 
+          type="number" 
+          id="signup-solde" 
+          placeholder="0.00" 
+          step="0.01" 
+          min="0"
+          value="0"
+          required
+          autocomplete="off"
+        >
+      </div>
+      
+      <button id="signup-btn" class="btn">Créer mon compte</button>
+      
+      <div class="form-toggle">
+        Déjà un compte ? <a id="show-login">Se connecter</a>
+      </div>
+      
+      <div id="signup-message" class="message"></div>
+    </div>
 
-<div class="form-container">
-  <div class="form-group">
-    <label for="username">Nom d'utilisateur</label>
-    <input 
-    type="text" 
-    id="username" 
-    placeholder="Entrez votre nom d'utilisateur" 
-    required
-    autocomplete="off"
-    >
+    <div class="footer">
+      <p>Commencez à gérer vos finances dès aujourd'hui</p>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="password">Mot de passe</label>
-    <input 
-      type="password" 
-      id="password" 
-      placeholder="Entrez votre mot de passe" 
-      required
-      autocomplete="off"
-    >
-  </div>
-  
-  <button id="login-btn" class="btn">Se connecter</button>
-  
-  <div id="message" class="message"></div>
-</div>
 
-
-<div class="footer">
-  <p>Nouveau? Vous serez automatiquement enregistré lors de votre première connexion</p>
-</div>
-</div>
-
-  <script src="script.js"></script>
+  <script src="auth.js"> </script>
 </body>
 </html>

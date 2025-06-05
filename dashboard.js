@@ -104,33 +104,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     function showTransferMessage(text, type) {
-    // Créer la notification si elle n'existe pas
-    let notification = document.querySelector('.notification');
-    if (!notification) {
-        notification = document.createElement('div');
-        notification.className = 'notification';
-        document.body.appendChild(notification);
-    }
-
-    // Configurer la notification
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
     notification.textContent = text;
-    notification.style.backgroundColor = type === 'success' ? '#2ecc71' : '#e74c3c';
-    
-    // Afficher la notification
-    notification.classList.remove('hide');
-    notification.classList.add('show');
+    document.body.appendChild(notification);
 
-    // Masquer après 5 secondes
+    // Animation d'apparition
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+
+    // Disparaît après 3 secondes
     setTimeout(() => {
         notification.classList.remove('show');
-        notification.classList.add('hide');
-        
-        // Optionnel: supprimer l'élément après l'animation
         setTimeout(() => {
             notification.remove();
         }, 300);
-    }, 5000);
+    }, 3000);
 }
+
 
     function clearTransferMessage() {
         transferMessage.textContent = '';
@@ -139,17 +131,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     transferBtn.addEventListener('click', async () => {
-        clearTransferMessage();
+    clearTransferMessage();
 
-        const recipientUsername = recipientInput.value.trim();
-        const amount = parseFloat(amountInput.value);
-        const motif = motifInput ? motifInput.value.trim() : '';
-        const motifToSend = motif || `Transfert à ${recipientUsername}`;
+    const recipientUsername = recipientInput.value.trim();
+    const amount = parseFloat(amountInput.value);
+    const motif = motifInput ? motifInput.value.trim() : '';
+    const motifToSend = motif || `Transfert à ${recipientUsername}`;
 
-        if (!recipientUsername || isNaN(amount) || amount <= 0) {
-            showTransferMessage('Veuillez remplir le destinataire et un montant valide.', 'error');
-            return;
-        }
+    // Récupérer le nom d'utilisateur actuel
+    const currentUsername = usernameEl.textContent.trim();
+
+    if (!recipientUsername || isNaN(amount) || amount <= 0) {
+        showTransferMessage('Veuillez remplir le destinataire et un montant valide.', 'error');
+        return;
+    }
+
+    // Empêcher le transfert à soi-même
+    if (recipientUsername === currentUsername) {
+        showTransferMessage('Vous ne pouvez pas transférer à vous-même.', 'error');
+        return;
+    }
 
         const soldeActuel = parseFloat(soldeEl.textContent.replace(' €', '')) || 0;
         if (soldeActuel < 0) {
